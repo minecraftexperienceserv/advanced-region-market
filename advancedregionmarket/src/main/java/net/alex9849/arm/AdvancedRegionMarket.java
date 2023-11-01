@@ -47,6 +47,7 @@ import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.subregions.commands.ToolCommand;
 import net.alex9849.pluginstats.client.Analytics;
+import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -94,6 +95,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private ArmSettings pluginSettings = null;
     private AbstractMaterialFinder materialFinder = null;
     private Analytics analytics = null;
+    private LuckPerms luckperms = null;
+
 
 
     /*#########################################
@@ -140,6 +143,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         //Check if Vault and an Economy Plugin is installed
         if (!setupEconomy()) {
             getLogger().log(Level.INFO, "Please install Vault and an economy Plugin!");
+        }
+
+        if(!setupLuckperms()) {
+            getLogger().log(Level.INFO, "Please install LuckPerms!");
         }
 
         setupPermissions();
@@ -523,6 +530,18 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return this.econ != null;
     }
 
+    private boolean setupLuckperms() {
+        if (getServer().getPluginManager().getPlugin("LuckPerms") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<net.luckperms.api.LuckPerms> rsp = getServer().getServicesManager().getRegistration(net.luckperms.api.LuckPerms.class);
+        if (rsp == null) {
+            return false;
+        }
+        this.luckperms = rsp.getProvider();
+        return this.luckperms != null;
+    }
+
     private boolean setupPermissions() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
@@ -813,6 +832,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public Economy getEcon() {
         return this.econ;
+    }
+
+    public LuckPerms getLuckperms() {
+        return this.luckperms;
     }
 
     public AbstractMaterialFinder getMaterialFinder() {

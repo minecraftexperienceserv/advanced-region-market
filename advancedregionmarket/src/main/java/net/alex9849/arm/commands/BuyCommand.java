@@ -6,6 +6,9 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.model.user.User;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,6 +18,8 @@ import java.util.List;
 
 public class BuyCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)buy [^;\n ]+";
+
+
 
     public BuyCommand(AdvancedRegionMarket plugin) {
         super(false, plugin, "buy",
@@ -27,6 +32,7 @@ public class BuyCommand extends BasicArmCommand {
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         Player player = (Player) sender;
         Region region;
+        User luckuser = AdvancedRegionMarket.getInstance().getLuckperms().getUserManager().getUser(player.getUniqueId());
 
         if (command.matches(this.regex_with_args)) {
             region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
@@ -36,6 +42,7 @@ public class BuyCommand extends BasicArmCommand {
 
         try {
             region.buy(player);
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player + " parent add bancarella");
         } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException
                 | AlreadySoldException | ProtectionOfContinuanceException e) {
             if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());

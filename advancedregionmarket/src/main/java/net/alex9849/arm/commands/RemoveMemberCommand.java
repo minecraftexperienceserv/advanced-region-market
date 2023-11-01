@@ -6,6 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -35,9 +36,12 @@ public class RemoveMemberCommand extends BasicArmCommand {
         if (command.matches(this.regex_with_args)) {
             region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
             removemember = Bukkit.getOfflinePlayer(args[2]);
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + args[2] + " parent remove bancarella");
         } else {
             region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
             removemember = Bukkit.getOfflinePlayer(args[1]);
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + args[1] + " parent remove bancarella");
+
         }
 
         if (!(region.getRegion().hasOwner(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_REMOVEMEMBER))) {
