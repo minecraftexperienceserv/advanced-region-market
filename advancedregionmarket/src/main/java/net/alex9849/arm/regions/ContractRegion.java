@@ -69,6 +69,7 @@ public class ContractRegion extends CountdownRegion {
                 if (this.getPayedTill() < actualtime.getTimeInMillis()) {
                     if (this.isTerminated()) {
                         this.automaticResetRegion(ActionReason.EXPIRED, true);
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + this.getOwnerName() + " parent remove bancarella");
                     } else {
                         UUID owner = this.getOwner();
                         if (owner == null) {
@@ -153,8 +154,10 @@ public class ContractRegion extends CountdownRegion {
     public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException, ProtectionOfContinuanceException {
         if(this.isSold()) {
             this.changeTerminated(player);
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + this.getOwnerName() + " parent remove bancarella");
         } else {
             this.buy(player);
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + this.getOwnerName() + " parent add bancarella");
         }
     }
 
@@ -179,6 +182,7 @@ public class ContractRegion extends CountdownRegion {
             }
         } else {
             this.setTerminated(true, player);
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + this.getOwnerName() + " parent remove bancarella");
         }
     }
 
@@ -200,8 +204,10 @@ public class ContractRegion extends CountdownRegion {
             String sendmessage;
             if(bool) {
                 sendmessage = Messages.CONTRACTREGION_TERMINATED;
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + this.getOwnerName() + " parent remove bancarella");
             } else {
                 sendmessage = Messages.CONTRACTREGION_REACTIVATED;
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + this.getOwnerName() + " parent add bancarella");
             }
             player.sendMessage(Messages.PREFIX + this.replaceVariables(sendmessage));
         }

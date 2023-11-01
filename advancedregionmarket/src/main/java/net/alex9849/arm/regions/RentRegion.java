@@ -47,6 +47,7 @@ public class RentRegion extends CountdownRegion {
             this.extend(player);
         } else {
             this.buy(player);
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + this.getOwnerName() + " parent add bancarella");
         }
     }
 
@@ -145,6 +146,8 @@ public class RentRegion extends CountdownRegion {
             if (this.getPayedTill() < actualtime.getTimeInMillis()) {
                 try {
                     this.automaticResetRegion(ActionReason.EXPIRED, true);
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + this.getOwnerName() + " parent remove bancarella");
+
                 } catch (SchematicNotFoundException e) {
                     AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG)); }
             }
