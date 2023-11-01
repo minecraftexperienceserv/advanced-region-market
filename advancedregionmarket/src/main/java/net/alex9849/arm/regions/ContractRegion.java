@@ -68,8 +68,9 @@ public class ContractRegion extends CountdownRegion {
                 //If region expired and terminated
                 if (this.getPayedTill() < actualtime.getTimeInMillis()) {
                     if (this.isTerminated()) {
-                        this.automaticResetRegion(ActionReason.EXPIRED, true);
                         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + this.getOwnerName() + " parent remove bancarella");
+                        System.out.println("Nome Player Owner: " + this.getOwnerName() + " Ho eseguito il comando lp");
+                        this.automaticResetRegion(ActionReason.EXPIRED, true);
                     } else {
                         UUID owner = this.getOwner();
                         if (owner == null) {

@@ -145,8 +145,9 @@ public class RentRegion extends CountdownRegion {
             GregorianCalendar actualtime = new GregorianCalendar();
             if (this.getPayedTill() < actualtime.getTimeInMillis()) {
                 try {
-                    this.automaticResetRegion(ActionReason.EXPIRED, true);
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + this.getOwnerName() + " parent remove bancarella");
+                    System.out.println("Nome Player Owner: " + this.getOwnerName() + " Ho eseguito il comando lp");
+                    this.automaticResetRegion(ActionReason.EXPIRED, true);
 
                 } catch (SchematicNotFoundException e) {
                     AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG)); }
